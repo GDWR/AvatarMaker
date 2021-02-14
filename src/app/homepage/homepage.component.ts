@@ -1,7 +1,6 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ThemePalette} from '@angular/material/core';
 import {AbstractControl, FormControl} from '@angular/forms';
-import {BehaviorSubject} from 'rxjs';
 
 class Colour {
   alpha: number;
@@ -31,6 +30,7 @@ export class HomepageComponent implements OnInit, AfterViewInit {
   bgSelectedColour: Colour = new Colour({a: 1, r: 255, g: 140, b: 0, hex: 'FF8C00', rgba: 'rgb(255, 140, 0)', roundA: 1});
   fgSelectedColour: Colour = new Colour({a: 1, r: 18, g: 47, b: 121, hex: '122F79', rgba: 'rgb(18,47,121)', roundA: 1});
   charSelectedColour: Colour = new Colour({a: 1, r: 253, g: 192, b: 36, hex: 'FDC024', rgba: 'rgb(253,173,36)', roundA: 1});
+  patternSelectedColour: Colour = new Colour({a: 1, r: 0, g: 120, b: 255, hex: '0078FF', rgba: 'rgb(0,120,255)', roundA: 1});
 
   color: ThemePalette = 'primary';
   colorCtr: AbstractControl = new FormControl(null);
@@ -58,10 +58,12 @@ export class HomepageComponent implements OnInit, AfterViewInit {
   textY = '55%';
   aA = 10;
   transformChar = `rotate(0, ${this.svgSize / 2}, ${this.svgSize / 2})`;
-  tempRotation = 0;
+  tempCharRotation = 0;
   textSize = 128;
   font: any;
   textBoundingBox: [number, number] | undefined;
+  tempPatternRotation = 0;
+  transformPattern = `rotate(0, ${this.svgSize / 2}, ${this.svgSize / 2})`;
 
   constructor() {
   }
@@ -93,7 +95,8 @@ export class HomepageComponent implements OnInit, AfterViewInit {
 
 
   valueChange(): void {
-    this.transformChar = `rotate(${this.tempRotation}, ${this.svgSize / 2}, ${this.svgSize / 2})`;
+    this.transformChar = `rotate(${this.tempCharRotation}, ${this.svgSize / 2}, ${this.svgSize / 2})`;
+    this.transformPattern = `rotate(${this.tempPatternRotation}, ${this.svgSize / 2}, ${this.svgSize / 2})`;
   }
 
 }

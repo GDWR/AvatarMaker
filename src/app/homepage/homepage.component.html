@@ -3,8 +3,35 @@
   <div id="avatar-circle">
 
     <svg [attr.width]="svgSize" [attr.height]="svgSize">
+
+
+      <!--Background-->
       <circle r="50%" cx="50%" cy="50%" [attr.fill]="bgSelectedColour.hex"></circle>
+
+
+      <!--Inner Mask-->
+      <defs>
+        <mask id="mask-path" x="0" y="0" width="1" height="1">
+          <circle r="29%" cx="50%" cy="50%" fill="#fff"></circle>
+        </mask>
+      </defs>
+
+      <!--Inner Circle-->
       <circle r="30%" cx="50%" cy="50%"  stroke="black" stroke-width="2%" [attr.fill]="fgSelectedColour.hex"></circle>
+
+
+      <pattern id="pattern-circles"
+               x="0"
+               y="0"
+               width="20"
+               height="20" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse">
+        <circle id="pattern-circle" cx="10" cy="10" r="10" fill= "#f06d06" />
+      </pattern>
+
+
+      <!-- Draw the pattern using the mask to contain it -->
+      <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-circles)" [attr.transform]="transformPattern" mask="url(#mask-path)"></rect>
+
 
       <text
         #characterSvg
@@ -14,6 +41,7 @@
         [attr.transform]="transformChar"
         [attr.font-size]="textSize" [attr.font-family]="fontSelected"
       >{{character}}</text>
+
     </svg>
 
   </div>
@@ -59,6 +87,35 @@
       </mat-card-content>
     </mat-card>
 
+    <mat-card id="patterns-card">
+      <mat-card-header>
+        <mat-card-title>
+          Patterns
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <mat-form-field>
+          <mat-label>Pattern Colour</mat-label>
+          <input matInput [defaultValue]="patternSelectedColour.hex" [ngxMatColorPicker]="pickerPattern" (colorChange)="selectFg(pickerPattern._selected)" [disabled]="false">
+          <ngx-mat-color-toggle matSuffix [for]="pickerPattern"></ngx-mat-color-toggle>
+          <ngx-mat-color-picker #pickerPattern [touchUi]="false" [color]="color"></ngx-mat-color-picker>
+        </mat-form-field>
+
+        <br>
+
+        <mat-label>Rotation</mat-label>
+        <mat-slider
+          [max]="360"
+          [min]="0"
+          [thumbLabel]="true"
+          (valueChange)="valueChange()"
+          [(ngModel)]="tempPatternRotation">
+        </mat-slider>
+
+      </mat-card-content>
+    </mat-card>
+
     <mat-card id="details-card">
       <mat-card-header>
         <mat-card-title>
@@ -80,7 +137,7 @@
           [min]="-100"
           [thumbLabel]="true"
           (valueChange)="valueChange()"
-          [(ngModel)]="tempRotation">
+          [(ngModel)]="tempCharRotation">
         </mat-slider>
 
         <br>
