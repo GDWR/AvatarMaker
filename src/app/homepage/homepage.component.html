@@ -1,0 +1,102 @@
+<div id="top-section">
+
+  <div id="avatar-circle">
+
+    <svg [attr.width]="svgSize" [attr.height]="svgSize">
+      <circle r="50%" cx="50%" cy="50%" [attr.fill]="bgSelectedColour.hex"></circle>
+      <circle r="30%" cx="50%" cy="50%"  stroke="black" stroke-width="2%" [attr.fill]="fgSelectedColour.hex"></circle>
+
+      <text
+        #characterSvg
+        stroke="black" stroke-width="1%" dominant-baseline="middle" text-anchor="middle"
+        [attr.x]="textX" [attr.y]="textY"
+        [attr.fill]="charSelectedColour.hex"
+        [attr.transform]="transformChar"
+        [attr.font-size]="textSize" [attr.font-family]="fontSelected"
+      >{{character}}</text>
+    </svg>
+
+  </div>
+
+</div>
+
+<div id="bottom-section">
+  <div id="bottom-rows" fxLayout fxLayoutGap="2rem">
+
+    <mat-card id="color-picker-card">
+      <mat-card-header>
+        <mat-card-title>
+          Colours
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <mat-form-field>
+          <mat-label>Foreground Colour</mat-label>
+          <input matInput [defaultValue]="fgSelectedColour.hex" [ngxMatColorPicker]="pickerFg" (colorChange)="selectFg(pickerFg._selected)" [disabled]="false">
+          <ngx-mat-color-toggle matSuffix [for]="pickerFg"></ngx-mat-color-toggle>
+          <ngx-mat-color-picker #pickerFg [touchUi]="false" [color]="color"></ngx-mat-color-picker>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field>
+          <mat-label>Background Colour</mat-label>
+          <input matInput [defaultValue]="bgSelectedColour.hex" [ngxMatColorPicker]="pickerBg" (colorChange)="selectBg(pickerBg._selected)" [disabled]="false">
+          <ngx-mat-color-toggle matSuffix [for]="pickerBg" ></ngx-mat-color-toggle>
+          <ngx-mat-color-picker #pickerBg  [touchUi]="false" [color]="color"></ngx-mat-color-picker>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field>
+          <mat-label>Text Colour</mat-label>
+          <input matInput [defaultValue]="charSelectedColour.hex" [ngxMatColorPicker]="pickerChar" (colorChange)="selectCharColour(pickerChar._selected)" [disabled]="false">
+          <ngx-mat-color-toggle  matSuffix [for]="pickerChar"></ngx-mat-color-toggle>
+          <ngx-mat-color-picker #pickerChar  [touchUi]="false" [color]="color"></ngx-mat-color-picker>
+        </mat-form-field>
+
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card id="details-card">
+      <mat-card-header>
+        <mat-card-title>
+          Other
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <mat-form-field>
+          <mat-label>Character</mat-label>
+          <input matInput type="text" maxlength="1" [(ngModel)]="character" (change)="valueChange()">
+        </mat-form-field>
+
+        <br>
+
+        <mat-label>Rotation</mat-label>
+        <mat-slider
+          [max]="100"
+          [min]="-100"
+          [thumbLabel]="true"
+          (valueChange)="valueChange()"
+          [(ngModel)]="tempRotation">
+        </mat-slider>
+
+        <br>
+
+        <mat-form-field>
+          <mat-label>Font</mat-label>
+          <mat-select [(ngModel)]="fontSelected" (change)="valueChange()">
+            <mat-option *ngFor="let font of fontChoices" [value]="font.value">
+              {{font.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
